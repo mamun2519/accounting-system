@@ -25,3 +25,11 @@ model JournalEntry {
       createdAt DateTime @default(now()) @map("created_at") @db.Timestamp()
       updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp()
 }
+
+model journalEntryLine {
+      id        String @id @default(auto()) @map("_id") @db.ObjectId
+      journalId String @map("journal_id") @db.ObjectId
+      accountId String @map("account_id") @db.ObjectId
+      debit     Float  @map("debit") @db.Decimal
+      credit    Float  @map("credit") @db.Decimal
+}
