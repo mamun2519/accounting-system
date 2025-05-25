@@ -8,8 +8,12 @@ datasource db {
       url      = env("DATABASE_URL")
 }
 
-model UserModel {
-      id    String  @id @default(auto()) @map("_id") @db.ObjectId
-      email String  @unique
-      name  String?
+model Account {
+      id        String   @id @default(auto()) @map("_id") @db.ObjectId
+      name      String
+      type      String
+      createdAt DateTime @default(now()) @map("created_at") @db.Timestamp()
+      updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp()
+
+      @@map("Accounts")
 }
