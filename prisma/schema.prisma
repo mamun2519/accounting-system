@@ -17,3 +17,11 @@ model Account {
 
       @@map("Accounts")
 }
+
+model JournalEntry {
+      id        String   @id @default(auto()) @map("_id") @db.ObjectId
+      date      DateTime @map("date") @db.Timestamp()
+      memo      String?  @map("memo") @db.String
+      createdAt DateTime @default(now()) @map("created_at") @db.Timestamp()
+      updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp()
+}
