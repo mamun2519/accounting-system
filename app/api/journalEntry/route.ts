@@ -8,8 +8,25 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
 
     const createdEntry = await prisma.journalEntry.create({
-      data: body,
+      data: {
+        date: body.date,
+        // demo: body.demo as string,
+      },
     });
+
+    if (body.lines && Array.isArray(body.lines)) {
+      const linesData = body.lines.map(
+        (line: { debit: number; credit: number }) => ({
+          debit: line.debit,
+          credit: line.credit,
+          journalEntryId: createdEntry.id,
+          accountId: body.accountId,
+        })
+      );
+      await prisma.journalEntryLine.createMany({
+        data: linesData,
+      });
+    }
 
     return NextResponse.json(createdEntry, { status: 201 });
     //     Define the schema for validation
