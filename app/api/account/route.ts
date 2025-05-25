@@ -8,12 +8,37 @@ export async function POST(req: Request) {
     const account = await prisma.account.create({
       data: body,
     });
-
     return NextResponse.json(account, { status: 201 });
   } catch (error) {
     console.error("POST /api/users error:", error);
     return NextResponse.json(
       { error: "Failed to create user" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
+    const account = await prisma.account.findUnique({
+      where: { id },
+    });
+
+    if (!account) {
+      return NextResponse.json({ error: "Account not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(account, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch account" },
       { status: 500 }
     );
   }
