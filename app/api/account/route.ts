@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 // create a new user account
 export async function POST(req: Request) {
   try {
+    //* receive the request body
     const body = await req.json();
 
     const account = await prisma.account.create({
@@ -11,9 +12,9 @@ export async function POST(req: Request) {
     });
     return NextResponse.json(account, { status: 201 });
   } catch (error) {
-    console.error("POST /api/users error:", error);
+    console.error(error);
     return NextResponse.json(
-      { error: "Failed to create user" },
+      { error: "Failed to create user. Please try again" },
       { status: 500 }
     );
   }
@@ -26,7 +27,7 @@ export async function GET(req: NextRequest) {
     const id = searchParams.get("id");
 
     if (!id) {
-      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+      return NextResponse.json({ error: "Id is required" }, { status: 400 });
     }
 
     const account = await prisma.account.findUnique({
@@ -61,6 +62,7 @@ export async function GET_ALL(req: NextRequest) {
   }
 }
 
+//delete a user account by ID
 export async function DELETE(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
@@ -79,6 +81,33 @@ export async function DELETE(req: NextRequest) {
     console.error("DELETE /api/accounts error:", error);
     return NextResponse.json(
       { error: "Failed to delete account" },
+      { status: 500 }
+    );
+  }
+}
+
+// update a user account by ID
+export async function PUT(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
+    const body = await req.json();
+
+    const account = await prisma.account.update({
+      where: { id },
+      data: body,
+    });
+
+    return NextResponse.json(account, { status: 200 });
+  } catch (error) {
+    console.error("PUT /api/accounts error:", error);
+    return NextResponse.json(
+      { error: "Failed to update account" },
       { status: 500 }
     );
   }
