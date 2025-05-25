@@ -51,7 +51,7 @@ export default async function TablePage({ accounts }) {
         <div className="bg-white rounded-lg shadow-md border border-gray-200">
           <div className="p-6 pb-4">
             <h2 className="text-xl font-semibold text-gray-900">
-              Profiles Table
+              Account Table
             </h2>
             <p className="text-sm text-gray-600 mt-1">
               {accounts.length === 0
