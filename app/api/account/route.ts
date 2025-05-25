@@ -1,6 +1,7 @@
 import prisma from "@/app/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
+// create a new user account
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -18,6 +19,7 @@ export async function POST(req: Request) {
   }
 }
 
+// fetch a user account by ID
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
@@ -37,8 +39,23 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(account, { status: 200 });
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: "Failed to fetch account" },
+      { status: 500 }
+    );
+  }
+}
+
+// create a all accounts
+export async function GET_ALL(req: NextRequest) {
+  try {
+    const accounts = await prisma.account.findMany();
+    return NextResponse.json(accounts, { status: 200 });
+  } catch (error) {
+    console.error("GET /api/accounts error:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch accounts" },
       { status: 500 }
     );
   }
