@@ -113,10 +113,28 @@ Prisma.NullTypes = {
  * Enums
  */
 
-exports.Prisma.UserModelScalarFieldEnum = {
+exports.Prisma.AccountScalarFieldEnum = {
   id: 'id',
-  email: 'email',
-  name: 'name'
+  name: 'name',
+  type: 'type',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.JournalEntryScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  memo: 'memo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.JournalEntryLineScalarFieldEnum = {
+  id: 'id',
+  journalId: 'journalId',
+  accountId: 'accountId',
+  debit: 'debit',
+  credit: 'credit'
 };
 
 exports.Prisma.SortOrder = {
@@ -131,7 +149,9 @@ exports.Prisma.QueryMode = {
 
 
 exports.Prisma.ModelName = {
-  UserModel: 'UserModel'
+  Account: 'Account',
+  JournalEntry: 'JournalEntry',
+  journalEntryLine: 'journalEntryLine'
 };
 
 /**

@@ -8,8 +8,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model UserModel {
-  id    String  @id @default(auto()) @map("_id") @db.ObjectId
-  email String  @unique
-  name  String?
+model Account {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  type             String
+  createdAt        DateTime           @default(now()) @map("created_at") @db.Timestamp()
+  updatedAt        DateTime           @default(now()) @updatedAt @map("updated_at") @db.Timestamp()
+  journalEntryLine journalEntryLine[]
+
+  @@map("Accounts")
+}
+
+model JournalEntry {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  date             DateTime           @map("date") @db.Timestamp()
+  memo             String?            @map("memo") @db.String
+  createdAt        DateTime           @default(now()) @map("created_at") @db.Timestamp()
+  updatedAt        DateTime           @default(now()) @updatedAt @map("updated_at") @db.Timestamp()
+  journalEntryLine journalEntryLine[]
+
+  @@map("JournalEntries")
+}
+
+model journalEntryLine {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  journalId    String       @map("journal_id") @db.ObjectId
+  accountId    String       @map("account_id") @db.ObjectId
+  debit        Float        @default(0.0) @map("debit")
+  credit       Float        @default(0.0) @map("credit")
+  journalEntry JournalEntry @relation(fields: [journalId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  account      Account      @relation(fields: [accountId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("JournalEntryLines")
 }
