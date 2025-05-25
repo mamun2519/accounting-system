@@ -60,3 +60,26 @@ export async function GET_ALL(req: NextRequest) {
     );
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
+    const account = await prisma.account.delete({
+      where: { id },
+    });
+
+    return NextResponse.json(account, { status: 200 });
+  } catch (error) {
+    console.error("DELETE /api/accounts error:", error);
+    return NextResponse.json(
+      { error: "Failed to delete account" },
+      { status: 500 }
+    );
+  }
+}
