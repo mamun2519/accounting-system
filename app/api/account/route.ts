@@ -31,7 +31,9 @@ export async function GET(req: NextRequest) {
     const id = searchParams.get("id");
 
     if (!id) {
-      return NextResponse.json({ error: "Id is required" }, { status: 400 });
+      // return NextResponse.json({ error: "Id is required" }, { status: 400 });
+      const accounts = await prisma.account.findMany();
+      return NextResponse.json(accounts, { status: 200 });
     }
 
     const account = await prisma.account.findUnique({
