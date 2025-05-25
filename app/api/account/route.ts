@@ -1,6 +1,9 @@
+// import { prisma } from "@/app/lib/prisma";
+// import { PrismaClient } from "@prisma/client";
 import prisma from "@/app/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
+// const prisma = new PrismaClient();
 // create a new user account
 export async function POST(req: Request) {
   try {
@@ -10,6 +13,7 @@ export async function POST(req: Request) {
     const account = await prisma.account.create({
       data: body,
     });
+
     return NextResponse.json(account, { status: 201 });
   } catch (error) {
     console.error(error);
