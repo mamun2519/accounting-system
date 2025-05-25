@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
 }
 
 // create a all accounts
-export async function GET_ALL(req: NextRequest) {
+export async function GET_ALL() {
   try {
     const accounts = await prisma.account.findMany();
     return NextResponse.json(accounts, { status: 200 });
