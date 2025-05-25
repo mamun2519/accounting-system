@@ -60,7 +60,7 @@ export async function GET_ALL() {
     const accounts = await prisma.account.findMany();
     return NextResponse.json(accounts, { status: 200 });
   } catch (error) {
-    console.error("GET /api/accounts error:", error);
+    console.error(error);
     return NextResponse.json(
       { error: "Failed to fetch accounts" },
       { status: 500 }
@@ -84,7 +84,7 @@ export async function DELETE(req: NextRequest) {
 
     return NextResponse.json(account, { status: 200 });
   } catch (error) {
-    console.error("DELETE /api/accounts error:", error);
+    console.error(error);
     return NextResponse.json(
       { error: "Failed to delete account" },
       { status: 500 }
@@ -111,7 +111,7 @@ export async function PUT(req: NextRequest) {
 
     return NextResponse.json(account, { status: 200 });
   } catch (error) {
-    console.error("PUT /api/accounts error:", error);
+    console.error(error);
     return NextResponse.json(
       { error: "Failed to update account" },
       { status: 500 }
