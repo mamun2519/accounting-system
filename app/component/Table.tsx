@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { Edit, Trash2 } from "lucide-react";
 
@@ -26,7 +25,7 @@ const sampleData: TableData[] = [
   { id: "5", name: "Red Cross", type: "organization" },
 ];
 
-export default async function TablePage() {
+export default async function TablePage({ accounts }) {
   const [tableData, setTableData] = useState<TableData[]>(sampleData);
   const [message, setMessage] = useState<string | null>(null);
 
@@ -55,9 +54,9 @@ export default async function TablePage() {
               Profiles Table
             </h2>
             <p className="text-sm text-gray-600 mt-1">
-              {tableData.length === 0
+              {accounts.length === 0
                 ? "No profiles available."
-                : `${tableData.length} profile(s) found.`}
+                : `${accounts.length} profile(s) found.`}
             </p>
           </div>
 
@@ -70,7 +69,7 @@ export default async function TablePage() {
             </div>
           )}
 
-          {tableData.length > 0 && (
+          {accounts.length > 0 && (
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-50 border-t border-gray-200">
@@ -87,7 +86,7 @@ export default async function TablePage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {tableData.map((item, index) => (
+                  {accounts.map((item, index) => (
                     <tr
                       key={item.id}
                       className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
@@ -125,7 +124,7 @@ export default async function TablePage() {
             </div>
           )}
 
-          {tableData.length === 0 && (
+          {accounts.length === 0 && (
             <div className="p-6 text-center">
               <div className="text-gray-400 text-sm">
                 <p>No data to display.</p>

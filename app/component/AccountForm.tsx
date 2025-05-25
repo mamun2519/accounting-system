@@ -148,7 +148,7 @@ export default function AccountForm() {
                 {/* Dropdown Options */}
                 {isSelectOpen && (
                   <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
-                    {typeOptions.map((option) => (
+                    {typeOptions?.map((option) => (
                       <button
                         key={option.value}
                         type="button"
