@@ -1,34 +1,19 @@
 "use client";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { formSchema } from "../schema/formSchema";
+import { typeOptions } from "../constant/contant";
+import { useRouter } from "next/navigation";
 
 // Define validation schema
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Name must be at least 2 characters long" })
-    .max(50, { message: "Name must be less than 50 characters" })
-    .regex(/^[a-zA-Z\s]+$/, {
-      message: "Name can only contain letters and spaces",
-    }),
-  type: z.string().min(1, { message: "Please select a type" }),
-});
 
 type FormData = z.infer<typeof formSchema>;
 
-const typeOptions = [
-  { value: "Asset", label: "Asset" },
-  { value: "Liability", label: "Liability" },
-  { value: "Equity", label: "Equity" },
-  { value: "Expense", label: "Expense" },
-  { value: "Revenue", label: "Revenue" },
-];
-
 export default function AccountForm() {
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
   const [isSelectOpen, setIsSelectOpen] = useState(false);
@@ -55,10 +40,6 @@ export default function AccountForm() {
     setSubmitMessage(null);
 
     try {
-      // Simulate API call
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // console.log("Form submitted:", data);
       const response = await fetch("/api/account", {
         method: "POST",
         headers: {
@@ -75,6 +56,8 @@ export default function AccountForm() {
         setSubmitMessage(
           `Successfully submitted! Name: ${data.name}, Type: ${data.type}`
         );
+
+        router.push("/journalEntry");
       }
 
       console.log(result);
